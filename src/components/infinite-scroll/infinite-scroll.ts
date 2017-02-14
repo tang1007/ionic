@@ -217,9 +217,15 @@ export class InfiniteScroll {
       // ******** DOM WRITE ****************
       this._dom.write(() => {
         this._zone.run(() => {
-          if (this.state !== STATE_LOADING && this.state !== STATE_DISABLED) {
+          if (this.state !== STATE_LOADING && this.state !== STATE_DISABLED && this._position === POSITION_BOTTOM) {
             this.state = STATE_LOADING;
             this.ionInfinite.emit(this);
+          } else if (this.state !== STATE_LOADING && this.state !== STATE_DISABLED && this._position === POSITION_TOP) {
+            this.state = STATE_LOADING;
+            this.ionInfinite.emit(this);
+            if (distanceFromInfinite < 0) {
+              this._content.scrollTo(0, this._content.contentHeight);
+            }
           }
         });
       });
