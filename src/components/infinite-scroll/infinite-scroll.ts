@@ -223,9 +223,7 @@ export class InfiniteScroll {
           } else if (this.state !== STATE_LOADING && this.state !== STATE_DISABLED && this._position === POSITION_TOP) {
             this.state = STATE_LOADING;
             this.ionInfinite.emit(this);
-            if (distanceFromInfinite < 0) {
-              this._content.scrollTo(0, this._content.contentHeight);
-            }
+            this._content.scrollTo(0, this._content.scrollHeight - 1300);
           }
         });
       });
