@@ -174,7 +174,7 @@ export class InfiniteScroll {
     @Host() private _content: Content,
     private _zone: NgZone,
     private _elementRef: ElementRef,
-    private _dom: DomController
+    private _dom: DomController,
   ) {
     _content.setElementClass('has-infinite-scroll', true);
   }
@@ -213,7 +213,10 @@ export class InfiniteScroll {
       distanceFromInfinite = d.scrollTop - infiniteHeight - threshold;
     }
 
-    if (distanceFromInfinite < 0) {
+    console.log('scrollTop', d.scrollTop);
+    console.log('distance', distanceFromInfinite);
+    console.log('threshold', threshold);
+    /*if (distanceFromInfinite < 0) {
       // ******** DOM WRITE ****************
       this._dom.write(() => {
         this._zone.run(() => {
@@ -221,10 +224,33 @@ export class InfiniteScroll {
             this.state = STATE_LOADING;
             this.ionInfinite.emit(this);
           } else if (this.state !== STATE_LOADING && this.state !== STATE_DISABLED && this._position === POSITION_TOP) {
+            // this._content.scrollTo(0, 300);
             this.state = STATE_LOADING;
+            if (d.scrollTop < 160) {
+              this._content.scrollTo(0, 200);
+            }
             this.ionInfinite.emit(this);
-            this._content.scrollTo(0, this._content.scrollHeight - 1300);
           }
+        });
+      });
+      return 5;
+    }*/
+    if (distanceFromInfinite < 0 && this._position === POSITION_BOTTOM) {
+      this._dom.write(() => {
+        this._zone.run(() => {
+          this.state = STATE_LOADING;
+          this.ionInfinite.emit(this);
+        });
+      });
+      return 5;
+    } else if (distanceFromInfinite < -20 && this._position === POSITION_TOP) {
+      this._dom.write(() => {
+        this._zone.run(() => {
+          this.state = STATE_LOADING;
+            this.ionInfinite.emit(this);
+            setTimeout(() => {
+              this._content.scrollTo(0, 800);
+          }, 200);
         });
       });
       return 5;
