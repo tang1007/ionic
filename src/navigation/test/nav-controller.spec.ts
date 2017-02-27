@@ -9,7 +9,7 @@ describe('NavController', () => {
 
   describe('push and pop', () => {
 
-    it('should push multiple times and pop multiple times', () => {
+    fit('should push multiple times and pop multiple times', () => {
       let push1Done = jasmine.createSpy('PushDone');
       let push2Done = jasmine.createSpy('PushDone');
       let push3Done = jasmine.createSpy('PushDone');
@@ -20,7 +20,7 @@ describe('NavController', () => {
 
       // Push 1
       nav.push(MockView1, null, { animate: false }, push1Done);
-
+      console.log('push 1')
       let hasCompleted = true;
       let requiresTransition = true;
       expect(push1Done).toHaveBeenCalledWith(
@@ -29,6 +29,7 @@ describe('NavController', () => {
       expect(nav.length()).toEqual(1);
       expect(nav.getByIndex(0).component).toEqual(MockView1);
 
+      console.log('push 2');
       // Push 2
       nav.push(MockView2, null, { animate: false }, push2Done);
 
@@ -39,6 +40,7 @@ describe('NavController', () => {
       expect(nav.getByIndex(0).component).toEqual(MockView1);
       expect(nav.getByIndex(1).component).toEqual(MockView2);
 
+      console.log('push 3');
       // Push 3
       nav.push(MockView3, null, { animate: false }, push3Done);
 
@@ -50,6 +52,7 @@ describe('NavController', () => {
       expect(nav.getByIndex(1).component).toEqual(MockView2);
       expect(nav.getByIndex(2).component).toEqual(MockView3);
 
+      console.log('push 4');
       // Push 4
       nav.push(MockView4, null, { animate: false }, push4Done);
 
@@ -62,6 +65,7 @@ describe('NavController', () => {
       expect(nav.getByIndex(2).component).toEqual(MockView3);
       expect(nav.getByIndex(3).component).toEqual(MockView4);
 
+      console.log('pop 1');
       // Pop 1
       nav.pop({ animate: false }, pop1Done);
 
@@ -73,6 +77,7 @@ describe('NavController', () => {
       expect(nav.getByIndex(1).component).toEqual(MockView2);
       expect(nav.getByIndex(2).component).toEqual(MockView3);
 
+      console.log('pop 2');
       // Pop 2
       nav.pop({ animate: false }, pop2Done);
 
@@ -83,6 +88,7 @@ describe('NavController', () => {
       expect(nav.getByIndex(0).component).toEqual(MockView1);
       expect(nav.getByIndex(1).component).toEqual(MockView2);
 
+      console.log('pop 3');
       // Pop 3
       nav.pop({ animate: false }, pop3Done);
 
