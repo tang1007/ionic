@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 
 import { App } from '../components/app/app';
 import { convertToViews, isNav, isTab, isTabs, NavLink, NavSegment, DIRECTION_BACK } from './nav-util';
-import { ModuleLoader } from '../util/module-loader';
+import { ModuleLoader } from '../util/lazy-loading/module-loader';
 import { isArray, isPresent } from '../util/util';
 import { Nav } from '../components/nav/nav';
 import { NavController } from './nav-controller';

@@ -4,7 +4,7 @@
  * Import Angular
  */
 import { ANALYZE_FOR_ENTRY_COMPONENTS, APP_INITIALIZER, ComponentFactoryResolver, Inject, Injector, ModuleWithProviders, NgModule, NgZone, Optional } from '@angular/core';
-import { APP_BASE_HREF, Location, LocationStrategy, HashLocationStrategy, PathLocationStrategy, PlatformLocation } from '@angular/common';
+
 import { DOCUMENT } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -78,7 +78,8 @@ import { DateTime } from './components/datetime/datetime';
 import { FabButton } from './components/fab/fab';
 import { FabContainer } from './components/fab/fab-container';
 import { FabList } from './components/fab/fab-list';
-import { Col } from './components/grid/col';
+import { Col } from './components/grid/column';
+import { Col as LegacyColumn } from './components/grid/col';
 import { Grid } from './components/grid/grid';
 import { Row } from './components/grid/row';
 import { Icon } from './components/icon/icon';
@@ -173,7 +174,8 @@ export { DateTime } from './components/datetime/datetime';
 export { FabButton } from './components/fab/fab';
 export { FabContainer } from './components/fab/fab-container';
 export { FabList } from './components/fab/fab-list';
-export { Col } from './components/grid/col';
+export { Col } from './components/grid/column';
+export { Col as LegacyColumn } from './components/grid/col';
 export { Grid } from './components/grid/grid';
 export { Row } from './components/grid/row';
 export { Ion } from './components/ion';
@@ -305,7 +307,7 @@ export {
   GestureDelegate,
   BlockerDelegate,
 } from './gestures/gesture-controller';
-export { Events, setupEvents, setupProvideEvents } from './util/events';
+
 export { IonicErrorHandler } from './util/ionic-error-handler';
 export { Keyboard } from './platform/keyboard';
 export { Form, IonicFormInput, IonicTapInput } from './util/form';
@@ -470,6 +472,7 @@ export { Transition } from './transitions/transition';
     Chip,
     ClickBlock,
     Col,
+    LegacyColumn,
     Content,
     DateTime,
     FabContainer,
@@ -575,54 +578,25 @@ export class IonicModule {
       ngModule: IonicModule,
       providers: [
         // useValue: bootstrap values
-        { provide: AppRootToken, useValue: appRoot },
-        { provide: ConfigToken, useValue: config },
-        { provide: DeepLinkConfigToken, useValue: deepLinkConfig },
-        { provide: APP_BASE_HREF, useValue: '/'},
 
         // useFactory: user values
-        { provide: PlatformConfigToken, useFactory: providePlatformConfigs },
 
         // useFactory: ionic core providers
-        { provide: Platform, useFactory: setupPlatform, deps: [ DOCUMENT, PlatformConfigToken, NgZone ] },
-        { provide: Config, useFactory: setupConfig, deps: [ ConfigToken, Platform ] },
 
         // useFactory: ionic app initializers
-        { provide: APP_INITIALIZER, useFactory: registerModeConfigs, deps: [ Config ], multi: true },
-        { provide: APP_INITIALIZER, useFactory: setupProvideEvents, deps: [ Platform, DomController ], multi: true },
-        { provide: APP_INITIALIZER, useFactory: setupTapClick, deps: [ Config, Platform, DomController, App, NgZone, GestureController ], multi: true },
 
         // useClass
         // { provide: HAMMER_GESTURE_CONFIG, useClass: IonicGestureConfig },
 
-        // useValue
-        { provide: ANALYZE_FOR_ENTRY_COMPONENTS, useValue: appRoot, multi: true },
-
         // ionic providers
         ActionSheetController,
         AlertController,
-        App,
-        DomController,
-        Events,
-        Form,
-        GestureController,
-        Haptic,
-        Keyboard,
         LoadingController,
-        Location,
         MenuController,
         ModalController,
         PickerController,
         PopoverController,
-        NgModuleLoader,
-        TapClick,
         ToastController,
-        TransitionController,
-
-        { provide: ModuleLoader, useFactory: provideModuleLoader, deps: [NgModuleLoader, Injector]},
-        { provide: LocationStrategy, useFactory: provideLocationStrategy, deps: [ PlatformLocation, [new Inject(APP_BASE_HREF), new Optional()], Config ] },
-        { provide: UrlSerializer, useFactory: setupUrlSerializer, deps: [ DeepLinkConfigToken ] },
-        { provide: DeepLinker, useFactory: setupDeepLinker, deps: [ App, UrlSerializer, Location,  ModuleLoader, ComponentFactoryResolver ] },
       ]
     };
   }
@@ -643,14 +617,4 @@ export class LazyModule {
     };
   }
 
-}
-
-/**
- * @private
- */
-export function provideLocationStrategy(platformLocationStrategy: PlatformLocation,
-                                        baseHref: string, config: Config) {
-  return config.get('locationStrategy') === 'path' ?
-         new PathLocationStrategy(platformLocationStrategy, baseHref) :
-         new HashLocationStrategy(platformLocationStrategy, baseHref);
 }
