@@ -13,15 +13,19 @@ log.txt
 .sass-cache/
 .versions/
 coverage/
+collection/
 dist/
 node_modules/
 tmp/
 temp/
+core/theme-builder/
+core/test-components/
 $RECYCLE.BIN/
 
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
+.env
 
 .package.tmp.json
 
@@ -29,6 +33,8 @@ src/themes/version.scss
 scripts/e2e/webpackEntryPoints.json
 scripts/build/e2e-generated-tsconfig.json
 *.css.ts
+
+stencil-stats.json
 
 # demo stuff
 demos/node_modules
